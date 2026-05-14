@@ -1,6 +1,6 @@
 <?php
 // Exercise library — image from Unsplash, per level + activity
-function getExercisePlan($level, $activity, $goal, $days_per_week, $gender = "male") {
+function getExercisePlan(string $level, string $activity, string $goal, int $days_per_week, string $gender = "male") {
     // Full exercise library
         // Local fallback images
         $imgPushup  = '/myfitcal_system/assets/image/workoutpushup.png';

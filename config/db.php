@@ -4,12 +4,12 @@
 // ============================================================
 
 // ── DATABASE ─────────────────────────────────────────────────
-define('DB_HOST',    'localhost');
-define('DB_USER',    'root');
-define('DB_PASS',    '');
-define('DB_NAME',    'myfit_cal');
+define('DB_HOST',    getenv('MYSQLHOST')     ?: 'localhost');
+define('DB_USER',    getenv('MYSQLUSER')     ?: 'root');
+define('DB_PASS',    getenv('MYSQLPASSWORD') ?: '');
+define('DB_NAME',    getenv('MYSQLDATABASE') ?: 'myfit_cal');
+define('DB_PORT',    getenv('MYSQLPORT')     ?: '3306');
 define('DB_CHARSET', 'utf8mb4');
-
 // ── MAILER ────────────────────────────────────────────────────
 define('MAIL_FROM_EMAIL', 'jorisonlorica98@gmail.com');  // ← palitan
 define('MAIL_FROM_NAME',  'MyFitCal');
@@ -22,7 +22,7 @@ define('MAIL_ENCRYPTION', 'tls');
 function getDB(): PDO {
     static $pdo = null;
     if ($pdo === null) {
-        $dsn = 'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset='.DB_CHARSET;
+       $dsn = 'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME.';charset='.DB_CHARSET;
         try {
             $pdo = new PDO($dsn, DB_USER, DB_PASS, [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
