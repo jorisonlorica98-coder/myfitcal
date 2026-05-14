@@ -30,8 +30,25 @@ $activity = $fitness['activity_level'] ?? 'sedentary';
 $goal_type= $goals['goal_type'] ?? 'maintain';
 $days_pw  = $fitness['days_per_week'] ?? 3;
 
-$schedule = getExercisePlan($level, $activity, $goal_type, $days_pw);
-$today    = $schedule[$day];
+$schedule = getExercisePlan($level, $activity, $goal_type, $days_pw, $gender);
+
+// Get completed days — same as dashboard
+$cdq = $db->prepare("SELECT DISTINCT day_number FROM user_workout_progress WHERE user_id=? AND completed=1");
+$cdq->execute([$user_id]);
+$completed_days = $cdq->fetchAll(PDO::FETCH_COLUMN);
+
+// Find current day (next incomplete workout) — same logic as dashboard
+$current_day = 1;
+for ($d = 1; $d <= 30; $d++) {
+    if (!in_array($d, $completed_days) && !$schedule[$d]['is_rest']) { $current_day = $d; break; }
+}
+
+// If no day param given, auto-redirect to current day
+if (!isset($_GET['day'])) {
+    header("Location: /myfitcal_system/user/workout.php?day=$current_day"); exit;
+}
+
+$today = $schedule[$day];
 
 if ($today['is_rest']) { header('Location: /myfitcal_system/user/dashboard.php'); exit; }
 
@@ -268,7 +285,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f4;color:#1c1917;min-heigh
   <nav class="sb-nav">
     <span class="sb-lbl">Main</span>
     <a href="/myfitcal_system/user/<?= $is_female ? 'dashboard_female' : 'dashboard' ?>.php" class="sb-link"><i class="bi bi-grid-1x2"></i> Dashboard</a>
-    <a href="/myfitcal_system/user/<?= $is_female ? 'workout_female' : 'workout' ?>.php?day=1" class="sb-link active"><i class="bi bi-lightning-charge"></i> Workout</a>
+    <a href="/myfitcal_system/user/<?= $is_female ? 'workout_female' : 'workout' ?>.php?day=<?= $current_day ?>" class="sb-link active"><i class="bi bi-lightning-charge"></i> Workout</a>
     <a href="/myfitcal_system/user/meals.php" class="sb-link"><i class="bi bi-egg-fried"></i> Meals</a>
     <span class="sb-lbl">Track</span>
     <a href="/myfitcal_system/user/calendar.php" class="sb-link"><i class="bi bi-calendar3"></i> Calendar</a>

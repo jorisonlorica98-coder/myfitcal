@@ -272,7 +272,7 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f4;color:#1c1917;min-heigh
   <nav class="sb-nav">
     <span class="sb-lbl">Main</span>
     <a href="/myfitcal_system/user/dashboard.php" class="sb-link active"><i class="bi bi-grid-1x2"></i> Dashboard</a>
-    <a href="/myfitcal_system/user/workout.php?day=1" class="sb-link"><i class="bi bi-lightning-charge"></i> Workout</a>
+    <a href="/myfitcal_system/user/workout.php?day=<?= $current_day ?>" class="sb-link"><i class="bi bi-lightning-charge"></i> Workout</a>
     <a href="/myfitcal_system/user/meals.php" class="sb-link"><i class="bi bi-egg-fried"></i> Meals</a>
     <span class="sb-lbl">Track</span>
     <a href="/myfitcal_system/user/calendar.php" class="sb-link"><i class="bi bi-calendar3"></i> Calendar</a>
