@@ -238,12 +238,56 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f4;color:#1c1917;min-heigh
 .prog-wrap{background:#f5f5f4;border-radius:999px;height:5px;overflow:hidden;margin-top:6px;}
 .prog-fill{height:100%;border-radius:999px;background:#1c1917;}
 
-@media(max-width:900px){.main{margin-left:0;}.sidebar{display:none;}.form-row,.form-row.three{grid-template-columns:1fr;}.info-grid{grid-template-columns:1fr;}}
+@media(max-width:900px){.main{margin-left:0;}.form-row,.form-row.three{grid-template-columns:1fr;}.info-grid{grid-template-columns:1fr;}}
+
+/* ── RESPONSIVE MOBILE ── */
+.mob-bar{display:none;}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;}
+.mob-overlay.show{display:block;}
+@media(max-width:768px){
+  .mob-bar{display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:200;background:#1c1917;padding:10px 16px;height:52px;}
+  .mob-bar-brand{display:flex;align-items:center;gap:8px;}
+  .mob-bar-brand img{width:26px;height:26px;border-radius:5px;object-fit:contain;}
+  .mob-bar-brand span{font-size:14px;font-weight:600;color:#fafaf9;}
+  .mob-hamburger{background:none;border:none;color:#fafaf9;font-size:22px;cursor:pointer;padding:4px;display:flex;align-items:center;}
+  .sidebar{transform:translateX(-100%);transition:transform .25s ease;z-index:300;width:240px;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0 !important;padding-top:52px;width:100% !important;}
+  .topbar{display:none;}
+  .content{padding:16px !important;}
+  .hero{flex-direction:column;text-align:center;}
+  .hero-stats{justify-content:center;}
+  .tabs{width:100%;overflow-x:auto;}
+  body{overflow-x:hidden;}
+}
 </style>
 </head>
 <body>
 
-<aside class="sidebar">
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="mob-bar">
+  <div class="mob-bar-brand">
+    <img src="/myfitcal_system/assets/image/logo.png" alt="">
+    <span>MyFitCal</span>
+  </div>
+  <button class="mob-hamburger" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+</div>
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('mobOverlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('show');
+}
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.sb-link').forEach(function(l){l.addEventListener('click',closeSidebar);});
+});
+</script>
+
+
+<aside class="sidebar" id="sidebar">
   <div class="sb-top">
     <div class="sb-brand">
       <div class="sb-logo"><img src="/myfitcal_system/assets/image/logo.png" alt="MyFitCal"></div>

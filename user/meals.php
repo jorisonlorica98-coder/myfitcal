@@ -1047,9 +1047,80 @@ body{font-family:'DM Sans',sans-serif;background:#f5f5f4;color:#1c1917;min-heigh
 .btn-dashboard{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;border:none;border-radius:6px;background:#1c1917;color:#fafaf9;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .12s;}
 .btn-dashboard:hover{background:#292524;color:#fafaf9;}
 @media(max-width:560px){.macro-grid{grid-template-columns:repeat(2,1fr);}.hero{flex-direction:column;}.hero-cal-badge{align-self:flex-start;}}
+
+/* ── RESPONSIVE MOBILE ── */
+.mob-bar{display:none;}
+@media(max-width:768px){
+  .mob-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    background:#1c1917;padding:10px 16px;height:52px;
+  }
+  .mob-bar-brand{display:flex;align-items:center;gap:8px;}
+  .mob-bar-brand img{width:26px;height:26px;border-radius:5px;object-fit:contain;}
+  .mob-bar-brand span{font-size:14px;font-weight:600;color:#fafaf9;}
+  .mob-hamburger{background:none;border:none;color:#fafaf9;font-size:20px;cursor:pointer;padding:4px;}
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    z-index:300;width:240px;
+  }
+  .sidebar.open{transform:translateX(0);}
+
+  .mob-overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;
+  }
+  .mob-overlay.show{display:block;}
+
+  .main{margin-left:0;padding-top:52px;}
+  .topbar{display:none;}
+
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .days-grid{grid-template-columns:repeat(6,1fr);}
+  .ex-img{width:56px;height:56px;}
+  .ex-name{font-size:12px;}
+  .content{padding:16px;}
+  .reminder-bar{flex-direction:column;align-items:flex-start;gap:8px;}
+  .reminder-actions{width:100%;display:flex;justify-content:flex-end;}
+  .today-head{flex-direction:column;align-items:flex-start;gap:6px;}
+  .meal-card,.chat-wrap,.cal-wrap,.prof-wrap{max-width:100% !important;}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+  /* Workout / exercise specific */
+  .ex-grid,.exercise-grid{grid-template-columns:1fr !important;}
+  .workout-layout{flex-direction:column !important;}
+  .workout-sidebar{width:100% !important;position:relative !important;top:auto !important;}
+}
+@media(max-width:420px){
+  .stats{grid-template-columns:1fr 1fr;}
+  .greeting h1{font-size:18px;}
+  .scard-val{font-size:20px;}
+}
+
 </style>
 </head>
 <body>
+<!-- Mobile hamburger -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeSidebar()"></div>
+<div class="mob-bar">
+  <div class="mob-bar-brand">
+    <img src="/myfitcal_system/assets/image/logo.png" alt="">
+    <span>MyFitCal</span>
+  </div>
+  <button class="mob-hamburger" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+</div>
+<script>
+function toggleSidebar(){
+  document.querySelector(".sidebar").classList.toggle("open");
+  document.getElementById("mobOverlay").classList.toggle("show");
+}
+function closeSidebar(){
+  document.querySelector(".sidebar").classList.remove("open");
+  document.getElementById("mobOverlay").classList.remove("show");
+}
+</script>
+
 
 <aside class="sidebar">
   <div class="sb-top">
